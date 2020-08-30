@@ -3,11 +3,14 @@
     <string name="item_name_tools_text">Terry Smith</string>
     <string name="item_status_tools_text">Dead</string>
     <string name="item_species_tools_text">Humanoid</string>
-    <string name="item_gender_tools_text">Male</string>
+    <string name="item_gender_tools_text">Gender: </string>
+    <string name="item_male_tools_text">Male</string>
     <string name="item_last_location_tools_text">Last known location:</string>
     <string name="item_location_tools_text">Earth</string>
     <string name="item_origin_tools_text">Alien Spa</string>
     <string name="item_first_seen_tools_text">First seen in:</string>
+    <string name="item_type_tools_text">Type: </string>
+    <string name="item_rick_type_tools_text">Rick is Toxic Side </string>
     <string name="show_character">Character</string>
     <string name="show_location">Location</string>
     <string name="show_episode">Episode</string>

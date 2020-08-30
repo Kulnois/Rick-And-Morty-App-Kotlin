@@ -42,14 +42,16 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
 
 @BindingAdapter("status")
 fun bindName(imgView: ImageView, status: String?){
+    println(status)
+
     when (status) {
-        ItemStatus.ALIVE.toString() -> {
+        ItemStatus.ALIVE.value -> {
             imgView.setColorFilter(ContextCompat.getColor(imgView.context, R.color.alive))
         }
-        ItemStatus.DEAD.toString() -> {
+        ItemStatus.DEAD.value -> {
             imgView.setColorFilter(ContextCompat.getColor(imgView.context, R.color.dead))
         }
-        ItemStatus.UNKNOWN.toString() -> {
+        ItemStatus.UNKNOWN.value -> {
             imgView.setColorFilter(ContextCompat.getColor(imgView.context, R.color.unknown))
         }
     }

@@ -49,8 +49,8 @@ class ListFragment : Fragment() {
 
         })
         Glide.with( binding.loadingImage.context)
-            .load(R.drawable.loading_app)
-            .into( binding.loadingImage)
+            .load(R.drawable.rick_nad_morty_background)
+            .into(binding.loadingImage)
 
         viewModel.loadPage.observe(viewLifecycleOwner, Observer { loadPage ->
             if (loadPage) {

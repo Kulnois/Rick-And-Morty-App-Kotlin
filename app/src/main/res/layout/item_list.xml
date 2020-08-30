@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         app:cardUseCompatPadding="true"
         app:cardCornerRadius="16dp"
+        app:cardBackgroundColor="@color/primaryLightColor"
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,17 +24,17 @@
 
             <TextView
                 android:id="@+id/nameTextView"
+                style="@style/NameItem"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                tools:text="@string/item_name_tools_text"
                 android:text="@{property.name}"
-                style="@style/NameItem"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/rickAndMortyImage"
-                app:layout_constraintTop_toTopOf="@+id/rickAndMortyImage" />
+                app:layout_constraintTop_toTopOf="@+id/rickAndMortyImage"
+                tools:text="@string/item_name_tools_text" />
 
             <ImageView
                 android:id="@+id/rickAndMortyImage"
@@ -60,65 +61,65 @@
 
             <TextView
                 android:id="@+id/separatorTextView"
-                android:layout_width="wrap_content"
+                style="@style/StatusAndSpeciesItem"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="-"
-                style="@style/StatusAndSpeciesItem"
                 app:layout_constraintBottom_toBottomOf="@+id/statusTextView"
                 app:layout_constraintStart_toEndOf="@+id/statusTextView"
                 app:layout_constraintTop_toTopOf="@+id/statusTextView" />
 
             <TextView
                 android:id="@+id/speciesTextView"
-                android:layout_width="wrap_content"
+                style="@style/StatusAndSpeciesItem"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                style="@style/StatusAndSpeciesItem"
-                tools:text="@string/item_species_tools_text"
+                android:layout_marginEnd="16dp"
                 android:text="@{property.species}"
                 app:layout_constraintBottom_toBottomOf="@+id/separatorTextView"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/separatorTextView"
-                app:layout_constraintTop_toTopOf="@+id/separatorTextView" />
+                app:layout_constraintTop_toTopOf="@+id/separatorTextView"
+                tools:text="@string/item_species_tools_text" />
 
             <TextView
                 android:id="@+id/lastLocationTextView"
+                style="@style/LastLocationItem"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                style="@style/LastLocationItem"
-                tools:text="@string/item_last_location_tools_text"
                 android:text="@string/item_last_location_tools_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/rickAndMortyImage"
-                app:layout_constraintTop_toBottomOf="@+id/separatorTextView" />
+                app:layout_constraintTop_toBottomOf="@+id/statusImage"
+                tools:text="@string/item_last_location_tools_text" />
 
             <TextView
                 android:id="@+id/locationTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="16dp"
                 style="@style/StatusAndSpeciesItem"
-                tools:text="@string/item_location_tools_text"
+                android:layout_width="0dp"
+                android:layout_height="19dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:text="@{property.location.name}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/rickAndMortyImage"
-                app:layout_constraintTop_toBottomOf="@+id/lastLocationTextView" />
+                app:layout_constraintTop_toBottomOf="@+id/lastLocationTextView"
+                tools:text="@string/item_location_tools_text" />
 
             <ImageView
                 android:id="@+id/statusImage"
                 android:layout_width="12dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
-                app:status="@{property.status}"
                 app:layout_constraintStart_toEndOf="@+id/rickAndMortyImage"
                 app:layout_constraintTop_toBottomOf="@+id/nameTextView"
-                app:srcCompat="@drawable/ic_baseline_brightness" />
+                app:srcCompat="@drawable/ic_baseline_brightness"
+                app:status="@{property.status}" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
