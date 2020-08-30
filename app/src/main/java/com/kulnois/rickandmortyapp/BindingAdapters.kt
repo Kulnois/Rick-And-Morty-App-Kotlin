@@ -20,7 +20,7 @@ import com.kulnois.rickandmortyapp.util.RickAndMortyStatus
  */
 
 @BindingAdapter("listData")
-fun bindRecyclerView(recyclerView: RecyclerView, data: List<RickAndMorty>?) {
+fun bindRecyclerView(recyclerView: RecyclerView, data: ArrayList<RickAndMorty>?) {
     val adapter = recyclerView.adapter as RickAndMortyAdapter
     adapter.submitList(data)
 }
@@ -43,13 +43,13 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
 @BindingAdapter("status")
 fun bindName(imgView: ImageView, status: String?){
     when (status) {
-        ItemStatus.Alive.toString() -> {
+        ItemStatus.ALIVE.toString() -> {
             imgView.setColorFilter(ContextCompat.getColor(imgView.context, R.color.alive))
         }
-        ItemStatus.Dead.toString() -> {
+        ItemStatus.DEAD.toString() -> {
             imgView.setColorFilter(ContextCompat.getColor(imgView.context, R.color.dead))
         }
-        ItemStatus.unknown.toString() -> {
+        ItemStatus.UNKNOWN.toString() -> {
             imgView.setColorFilter(ContextCompat.getColor(imgView.context, R.color.unknown))
         }
     }

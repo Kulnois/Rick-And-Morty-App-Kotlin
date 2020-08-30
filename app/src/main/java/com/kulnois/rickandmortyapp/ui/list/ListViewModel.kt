@@ -5,12 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.kulnois.rickandmortyapp.data.model.RickAndMorty
 import com.kulnois.rickandmortyapp.network.RickAndMortyApi
+import com.kulnois.rickandmortyapp.util.RickAndMortyFilter
 import com.kulnois.rickandmortyapp.util.RickAndMortyStatus
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
 
 /**
  * Created by @kulnois on 28/08/2020.
@@ -23,33 +26,45 @@ class ListViewModel : ViewModel() {
         get() = _status
 
 
-    private val _rickAndMortyData = MutableLiveData<List<RickAndMorty>>()
-    val rickAndMortyData: LiveData<List<RickAndMorty>>
+    val dataAllList = arrayListOf<RickAndMorty>()
+
+    val loadPage = MutableLiveData<Boolean>()
+
+
+    private val _rickAndMortyData = MutableLiveData<ArrayList<RickAndMorty>>()
+    val rickAndMortyData: LiveData<ArrayList<RickAndMorty>>
         get() = _rickAndMortyData
 
     private var viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     init {
-        getRickAndMortyData()
+        coroutineScope.launch {
+            getData(1)
+        }
     }
 
-    private fun getRickAndMortyData() {
+    private fun getRickAndMortyData(page: Int) {
         coroutineScope.launch {
             try {
-                _status.value = RickAndMortyStatus.LOADING
-                var getRickAndMorty = RickAndMortyApi.retrofitService.getData()
-                if (getRickAndMorty.isSuccessful && getRickAndMorty.body() != null){
-                    val dataRickAndMorty = getRickAndMorty.body()
-                    if (dataRickAndMorty!!.results!!.isNotEmpty()) {
-                        _status.value = RickAndMortyStatus.DONE
-                        _rickAndMortyData.value = dataRickAndMorty.results
-                    }
-                }else {
-                    _status.value = RickAndMortyStatus.ERROR
-                    _rickAndMortyData.value = ArrayList()
+                if (page == 1) {
+                    _status.value = RickAndMortyStatus.LOADING
                 }
-
+                if (page <= 34) {
+                    var getRickAndMorty = RickAndMortyApi.retrofitService.getData(page)
+                    if (getRickAndMorty.isSuccessful && getRickAndMorty.body() != null){
+                        val dataRickAndMorty = getRickAndMorty.body()
+                        if (dataRickAndMorty!!.results!!.isNotEmpty()) {
+                            _status.value = RickAndMortyStatus.DONE
+                            dataAllList.addAll(dataRickAndMorty.results)
+                            _rickAndMortyData.value = dataAllList
+                            loadPage.value = true
+                        }
+                    }else {
+                        _status.value = RickAndMortyStatus.ERROR
+                        _rickAndMortyData.value = ArrayList()
+                    }
+                }
             } catch (e: Exception){
                 _status.value = RickAndMortyStatus.ERROR
                 _rickAndMortyData.value = ArrayList()
@@ -57,8 +72,52 @@ class ListViewModel : ViewModel() {
         }
     }
 
+    private suspend fun getData(page: Int) {
+        try {
+            if (page == 1) {
+                _status.value = RickAndMortyStatus.LOADING
+            }
+            if (page <= 34) {
+                val response = RickAndMortyApi.retrofitService.getData(page)
+                if (response.isSuccessful) {
+                    val dataRickAndMorty = response.body()
+                    if (dataRickAndMorty!!.results!!.isNotEmpty()) {
+                        _status.value = RickAndMortyStatus.DONE
+                        dataAllList.addAll(dataRickAndMorty.results)
+                        _rickAndMortyData.value = dataAllList
+                        loadPage.value = true
+                    }
+                } else {
+                    _status.value = RickAndMortyStatus.ERROR
+                    _rickAndMortyData.value = ArrayList()
+                }
+            }
+
+        } catch (e: UnknownHostException) {
+            //No hay conexión a Internet o el host no está disponible
+            _status.value = RickAndMortyStatus.ERROR
+            _rickAndMortyData.value = ArrayList()
+        } catch (e: SocketTimeoutException) {
+            //Se agota el tiempo de espera
+            _status.value = RickAndMortyStatus.ERROR
+            _rickAndMortyData.value = ArrayList()
+        } catch (e: Exception) {
+            _status.value = RickAndMortyStatus.ERROR
+            _rickAndMortyData.value = ArrayList()
+        }
+    }
+
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
+    }
+
+    fun updateFilter(filter: RickAndMortyFilter) { }
+
+    fun updatePage(page: Int) {
+        loadPage.value = false
+        coroutineScope.launch {
+            getData(page)
+        }
     }
 }

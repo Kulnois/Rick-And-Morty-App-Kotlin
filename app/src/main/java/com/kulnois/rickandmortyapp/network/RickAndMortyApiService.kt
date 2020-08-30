@@ -7,6 +7,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 /**
  * Created by @kulnois on 28/08/2020.
@@ -22,7 +23,7 @@ private val retrofit = Retrofit.Builder()
 interface RickAndMortyApiService {
 
     @GET("character/")
-    suspend fun getData():
+    suspend fun getData(@Query("page") type: Int):
             Response<DataRickAndMorty>
 }
 

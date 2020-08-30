@@ -1,11 +1,17 @@
 package com.kulnois.rickandmortyapp.ui.list
 
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kulnois.rickandmortyapp.R
 import com.kulnois.rickandmortyapp.adapter.RickAndMortyAdapter
@@ -18,6 +24,9 @@ import com.kulnois.rickandmortyapp.databinding.FragmentListBinding
 class ListFragment : Fragment() {
 
     private lateinit var binding: FragmentListBinding
+    private lateinit var scrollListener: RecyclerView.OnScrollListener
+    private var lastVisibleItemPosition: Int = 0
+    private var page: Int = 1
 
     private val viewModel: ListViewModel by lazy {
         ViewModelProvider(this).get(ListViewModel::class.java)
@@ -36,13 +45,33 @@ class ListFragment : Fragment() {
     private fun initUI() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        binding.photosGrid.adapter = RickAndMortyAdapter(RickAndMortyAdapter.OnClickListener {
+        binding.itemGrid.adapter = RickAndMortyAdapter(RickAndMortyAdapter.OnClickListener {
 
         })
-
         Glide.with( binding.loadingImage.context)
             .load(R.drawable.loading_app)
             .into( binding.loadingImage)
 
+        viewModel.loadPage.observe(viewLifecycleOwner, Observer { loadPage ->
+            if (loadPage) {
+                setRecyclerViewScrollListener()
+            }
+        })
+    }
+
+    private fun setRecyclerViewScrollListener() {
+        scrollListener = object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView!!, newState)
+                val totalItemCount = recyclerView!!.layoutManager!!.itemCount
+                lastVisibleItemPosition = (binding.itemGrid.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                if (totalItemCount == lastVisibleItemPosition + 1) {
+                    page += 1
+                    viewModel.updatePage(page)
+                    binding.itemGrid.removeOnScrollListener(scrollListener)
+                }
+            }
+        }
+        binding.itemGrid.addOnScrollListener(scrollListener)
     }
 }

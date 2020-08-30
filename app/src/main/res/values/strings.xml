@@ -8,4 +8,7 @@
     <string name="item_location_tools_text">Earth</string>
     <string name="item_origin_tools_text">Alien Spa</string>
     <string name="item_first_seen_tools_text">First seen in:</string>
+    <string name="show_character">Character</string>
+    <string name="show_location">Location</string>
+    <string name="show_episode">Episode</string>
 </resources>

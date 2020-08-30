@@ -22,6 +22,10 @@ class RickAndMortyAdapter (private val onClickListener: OnClickListener): ListAd
 
     }
 
+    override fun submitList(list: MutableList<RickAndMorty>?) {
+        super.submitList(list?.let { ArrayList(it) })
+    }
+
     companion object DiffCallback: DiffUtil.ItemCallback<RickAndMorty>() {
         override fun areItemsTheSame(oldItem: RickAndMorty, newItem: RickAndMorty): Boolean {
             return  oldItem === newItem
