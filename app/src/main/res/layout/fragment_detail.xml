@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.kulnois.rickandmortyapp.ui.detail.DetailViewModel" />
+    </data>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,20 +22,21 @@
 
             <RelativeLayout
                 android:id="@+id/shape_layout"
-                android:layout_width="255dp"
-                android:layout_height="255dp"
+                android:layout_width="205dp"
+                android:layout_height="205dp"
                 android:background="@drawable/circular_bordershape_alive"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                relativeLayoutStatus="@{viewModel.selectedItem.status}"
                 >
                 <androidx.cardview.widget.CardView
                     android:id="@+id/card_view_list"
-                    android:layout_width="250dp"
-                    android:layout_height="250dp"
-                    app:cardCornerRadius="125dp"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    app:cardCornerRadius="100dp"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true">
 
@@ -38,6 +45,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
+                        app:imageUrl="@{viewModel.selectedItem.image}"
                         tools:src="@tools:sample/avatars" />
 
                 </androidx.cardview.widget.CardView>
@@ -51,7 +59,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="16dp"
-                android:text="@{property.name}"
+                android:text="@{viewModel.selectedItem.name}"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -67,7 +75,7 @@
                 app:layout_constraintStart_toStartOf="@+id/nameTextView"
                 app:layout_constraintTop_toBottomOf="@+id/nameTextView"
                 app:srcCompat="@drawable/ic_baseline_brightness"
-                app:status="@{property.status}" />
+                app:status="@{viewModel.selectedItem.status}" />
 
             <TextView
                 android:id="@+id/statusTextView"
@@ -79,7 +87,7 @@
                 app:layout_constraintStart_toEndOf="@+id/statusImage"
                 app:layout_constraintTop_toTopOf="@+id/statusImage"
                 tools:text="@string/item_status_tools_text"
-                android:text="@{property.status}" />
+                android:text="@{viewModel.selectedItem.status}" />
 
             <TextView
                 android:id="@+id/separatorTextView"
@@ -99,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="16dp"
-                android:text="@{property.species}"
+                android:text="@{viewModel.selectedItem.species}"
                 app:layout_constraintBottom_toBottomOf="@+id/separatorTextView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/separatorTextView"
@@ -128,7 +136,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:text="@{property.location.name}"
+                android:text="@{viewModel.selectedItem.name}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lastLocationTextView"
@@ -142,7 +150,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="16dp"
-                android:text=""
+                android:text="@string/item_first_seen_tools_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/locationTextView"
@@ -156,7 +164,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 style="@style/StatusAndSpeciesItem"
-                android:text=""
+                android:text="@{viewModel.selectedItem.origin.name}"
                 tools:text="@string/item_origin_tools_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -169,6 +177,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
+                android:text="@string/item_gender_tools_text"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/speciesTextView"
                 tools:text="@string/item_gender_tools_text" />
@@ -178,7 +187,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text=""
+                android:text="@{viewModel.selectedItem.gender}"
                 style="@style/StatusAndSpeciesItem"
                 tools:text="@string/item_male_tools_text"
                 app:layout_constraintBottom_toBottomOf="@+id/genderTextView"
@@ -192,6 +201,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
+                android:text="@string/item_type_tools_text"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/genderTextView"
                 tools:text="@string/item_type_tools_text" />
@@ -201,12 +211,41 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text=""
+                android:text="@{viewModel.selectedItem.type}"
                 style="@style/StatusAndSpeciesItem"
                 tools:text="@string/item_rick_type_tools_text"
                 app:layout_constraintBottom_toBottomOf="@+id/typeTextView"
                 app:layout_constraintStart_toEndOf="@+id/typeTextView"
                 app:layout_constraintTop_toTopOf="@+id/typeTextView" />
+
+            <TextView
+                android:id="@+id/numberEpisodeTextView"
+                style="@style/LastLocationItem"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/item_number_episode_tools_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/originTextView"
+                tools:text="@string/item_number_episode_tools_text" />
+
+            <TextView
+                android:id="@+id/accountEpisodeTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                style="@style/StatusAndSpeciesItem"
+                android:text="@{Integer.toString(viewModel.selectedItem.episode.size())}"
+                tools:text="@string/item_origin_tools_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/numberEpisodeTextView" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

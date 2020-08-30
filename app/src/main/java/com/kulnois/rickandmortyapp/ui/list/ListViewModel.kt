@@ -35,6 +35,11 @@ class ListViewModel : ViewModel() {
     val rickAndMortyData: LiveData<ArrayList<RickAndMorty>>
         get() = _rickAndMortyData
 
+    private val _navigateToSelectedProperty = MutableLiveData<RickAndMorty>()
+
+    val navigateToSelectedProperty: LiveData<RickAndMorty>
+        get() = _navigateToSelectedProperty
+
     private var viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
@@ -110,6 +115,14 @@ class ListViewModel : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
+    }
+
+    fun displayPropertyDetails(rickAndMorty: RickAndMorty) {
+        _navigateToSelectedProperty.value = rickAndMorty
+    }
+
+    fun displayPropertyDetailsComplete() {
+        _navigateToSelectedProperty.value = null
     }
 
     fun updateFilter(filter: RickAndMortyFilter) { }

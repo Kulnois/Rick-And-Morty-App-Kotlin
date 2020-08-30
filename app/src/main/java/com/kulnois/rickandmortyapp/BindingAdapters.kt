@@ -2,7 +2,7 @@ package com.kulnois.rickandmortyapp
 
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
+import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.widget.ContentLoadingProgressBar
@@ -42,8 +42,6 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
 
 @BindingAdapter("status")
 fun bindName(imgView: ImageView, status: String?){
-    println(status)
-
     when (status) {
         ItemStatus.ALIVE.value -> {
             imgView.setColorFilter(ContextCompat.getColor(imgView.context, R.color.alive))
@@ -69,6 +67,21 @@ fun bindStatus(statusImageView: ImageView, status: RickAndMortyStatus?) {
         }
         RickAndMortyStatus.DONE -> {
             statusImageView.visibility = View.GONE
+        }
+    }
+}
+
+@BindingAdapter("relativeLayoutStatus")
+fun bindRelativeLayoutStatus(relativeLayout: RelativeLayout, status: String?) {
+    when (status) {
+        ItemStatus.ALIVE.value -> {
+            relativeLayout.setBackgroundResource(R.drawable.circular_bordershape_alive)
+        }
+        ItemStatus.DEAD.value -> {
+            relativeLayout.setBackgroundResource(R.drawable.circular_bordershape_dead)
+        }
+        ItemStatus.UNKNOWN.value -> {
+            relativeLayout.setBackgroundResource(R.drawable.circular_bordershape_unknown)
         }
     }
 }

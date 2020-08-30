@@ -7,5 +7,28 @@
     <fragment
         android:id="@+id/listFragment"
         android:name="com.kulnois.rickandmortyapp.ui.list.ListFragment"
-        android:label="ListFragment" />
+        android:label="ListFragment" >
+        <action
+            android:id="@+id/action_listFragment_to_detailFragment"
+            app:destination="@id/detailFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.kulnois.rickandmortyapp.ui.detail.DetailFragment"
+        android:label="DetailFragment" >
+        <argument
+            android:name="selectedItem"
+            app:argType="com.kulnois.rickandmortyapp.data.model.RickAndMorty" />
+        <action
+            android:id="@+id/action_detailFragment_to_listFragment"
+            app:destination="@id/listFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popUpTo="@id/listFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

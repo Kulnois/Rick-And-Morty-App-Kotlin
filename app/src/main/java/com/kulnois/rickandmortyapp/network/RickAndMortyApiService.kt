@@ -1,7 +1,5 @@
 package com.kulnois.rickandmortyapp.network
 
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import com.kulnois.rickandmortyapp.data.model.DataRickAndMorty
 import retrofit2.Response
 import retrofit2.Retrofit
