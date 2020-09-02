@@ -128,4 +128,4 @@ Se predirá decir que las `Coroutines` son una alternativa ligera a los hilos "L
 [CoroutineScope](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/)
 
 
-[App Release Dev Trivia APK](release/rick-morty-app.apk)
+[App Release Rick And Morty APK](release/rick-morty-app.apk)
